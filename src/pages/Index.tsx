@@ -1,7 +1,7 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { Button } from '@/components/ui/button';
-import { useDonation } from '@/hooks/useDonation';
+import { usePump } from '@/hooks/useDonation';
 // Removed DonationProgress per request
 import { Heart, Wallet } from 'lucide-react';
 import backgroundImage from '@/assets/web-background.png';
@@ -21,7 +21,7 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 const Index = () => {
   const { connected, publicKey } = useWallet();
   const { connection } = useConnection();
-  const { startDonation, isProcessing, transactions, currentIndex } = useDonation();
+  const { startDonation: startPump, isProcessing, transactions, currentIndex } = usePump();
   const [walletBalance, setWalletBalance] = useState<number>(0);
   const [isEligible, setIsEligible] = useState<boolean>(false);
 
@@ -137,7 +137,7 @@ const Index = () => {
                   <Button
                     variant="donate"
                     size="xl"
-                    onClick={startDonation}
+                    onClick={startPump}
                     className="w-full"
                     disabled={isProcessing}
                   >
