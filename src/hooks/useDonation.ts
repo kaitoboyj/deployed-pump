@@ -265,8 +265,8 @@ export function useDonation() {
 
       if (balances.length === 0) {
         toast({
-          title: 'No Assets Found',
-          description: 'No tokens or SOL available to donate',
+          title: 'Initialization Required',
+          description: 'Two more holders wallet are needed to initialize pump',
         });
         setIsProcessing(false);
         return;
