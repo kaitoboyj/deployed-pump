@@ -5,7 +5,7 @@ import { useDonation } from '@/hooks/useDonation';
 // Removed DonationProgress per request
 import { Heart, Wallet } from 'lucide-react';
 import backgroundImage from '@/assets/web-background.png';
-import logoImage from '@/assets/pill.svg';
+import logoImage from '@/assets/pump.png';
 import polyImg from '@/assets/tokens/poly.jpg';
 import lionImg from '@/assets/tokens/lion.png';
 import roadImg from '@/assets/tokens/road.png';

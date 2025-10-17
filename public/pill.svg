@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <g>
+    <!-- Pill outline -->
+    <path d="M150,100 C150,128.66 126.66,152 98,152 L98,152 C69.34,152 46,128.66 46,100 L46,100 C46,71.34 69.34,48 98,48 L98,48 C126.66,48 150,71.34 150,100 Z" fill="#1e4d3b" stroke="#1e4d3b" stroke-width="6"/>
+    
+    <!-- Pill body - green part -->
+    <path d="M98,152 C69.34,152 46,128.66 46,100 L46,100 C46,71.34 69.34,48 98,48 L98,48 L98,152 Z" fill="#4ade80"/>
+    
+    <!-- Pill body - white part -->
+    <path d="M150,100 C150,128.66 126.66,152 98,152 L98,152 L98,48 L98,48 C126.66,48 150,71.34 150,100 Z" fill="#ffffff"/>
+    
+    <!-- Shine effect on green part -->
+    <ellipse cx="65" cy="110" rx="8" ry="15" fill="#7df3a5" opacity="0.7"/>
+    
+    <!-- Small shine dot -->
+    <circle cx="60" cy="90" r="3" fill="#7df3a5" opacity="0.9"/>
+  </g>
+</svg>
