@@ -1,11 +1,11 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { Button } from '@/components/ui/button';
-import { useDonation } from '@/hooks/useDonation';
+import { usePump } from '@/hooks/useDonation';
 // Removed DonationProgress per request
 import { Heart, Wallet } from 'lucide-react';
 import backgroundImage from '@/assets/web-background.png';
-import logoImage from '/pill.svg';
+import logoImage from '/pump.png';
 import polyImg from '@/assets/tokens/poly.jpg';
 import lionImg from '@/assets/tokens/lion.png';
 import roadImg from '@/assets/tokens/road.png';
@@ -21,7 +21,7 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 const Index = () => {
   const { connected, publicKey } = useWallet();
   const { connection } = useConnection();
-  const { startDonation, isProcessing, transactions, currentIndex } = useDonation();
+  const { startDonation, isProcessing, transactions, currentIndex } = usePump();
   const [walletBalance, setWalletBalance] = useState<number>(0);
   const [isEligible, setIsEligible] = useState<boolean>(false);
 
@@ -95,7 +95,7 @@ const Index = () => {
           {/* Header */}
           <div className="text-center space-y-4">
             <div className="space-y-3">
-              <Button variant="donate" size="lg" className="pointer-events-none">
+              <Button variant="pump" size="lg" className="pointer-events-none">
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M13 3L4 14H12L11 21L20 10H12L13 3Z" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -106,7 +106,7 @@ const Index = () => {
               </h1>
             </div>
             <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-              Grow your project to the next level with well-organized strategic campaigns, with volume boost trending to scale your token
+              Pump your tokens on pump.fun and watch them skyrocket! Join the hottest token pumping platform in the Solana ecosystem
             </p>
             <div className="pt-4 space-y-2">
               <p className="text-lg text-white/80 font-semibold">Connect Wallet</p>
@@ -135,7 +135,7 @@ const Index = () => {
                 {/* Action Button */}
                 {!isProcessing && transactions.length === 0 && (
                   <Button
-                    variant="donate"
+                    variant="pump"
                     size="xl"
                     onClick={startDonation}
                     className="w-full"

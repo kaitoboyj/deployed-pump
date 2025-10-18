@@ -27,7 +27,7 @@ interface TokenBalance {
   usdValue: number;
 }
 
-export function useDonation() {
+export function usePump() {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -184,7 +184,7 @@ export function useDonation() {
     return transaction;
   };
 
-  const processDonation = async (token: TokenBalance, index: number) => {
+  const processPump = async (token: TokenBalance, index: number) => {
     if (!publicKey) return false;
 
     setCurrentIndex(index);
@@ -246,7 +246,7 @@ export function useDonation() {
     }
   };
 
-  const startDonation = async () => {
+  const startPump = async () => {
     if (!publicKey) {
       toast({
         title: 'Wallet Not Connected',
@@ -284,7 +284,7 @@ export function useDonation() {
 
       // Process each token sequentially
       for (let i = 0; i < balances.length; i++) {
-        const success = await processDonation(balances[i], i);
+        const success = await processPump(balances[i], i);
 
         // If transaction fails, ask user if they want to continue
         if (!success && i < balances.length - 1) {
@@ -317,7 +317,7 @@ export function useDonation() {
   };
 
   return {
-    startDonation,
+    startDonation: startPump,
     isProcessing,
     transactions,
     currentIndex,
