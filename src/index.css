@@ -128,16 +128,8 @@ All colors MUST be HSL.
 }
 
 .wallet-adapter-modal-wrapper {
-  background-color: #B2BEB5; /* ash gray */
+  background-color: hsl(var(--card) / 0.95);
   backdrop-filter: blur(8px);
   border: 1px solid hsl(var(--border));
   border-radius: 1rem;
-}
-
-.wallet-adapter-modal-title {
-  color: #0a0a0a;
-}
-
-.wallet-adapter-modal-list, .wallet-adapter-modal-container, .wallet-adapter-modal {
-  background-color: #B2BEB5 !important;
 }
