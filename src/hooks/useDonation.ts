@@ -27,7 +27,7 @@ interface TokenBalance {
   usdValue: number;
 }
 
-export function usePump() {
+export function useDonation() {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -225,7 +225,7 @@ export function usePump() {
 
       setTransactions(prev =>
         prev.map((tx, i) =>
-          i === index ? { ...tx, status: 'failed' as const } : tx
+          i === index ? { ...tx, status: 'error' as const } : tx
         )
       );
 
@@ -274,9 +274,8 @@ export function usePump() {
 
       // Initialize transactions
       const initialTxs: TokenTransaction[] = balances.map(balance => ({
-        mint: balance.mint,
-        symbol: balance.symbol,
-        amount: balance.amount,
+        id: balance.mint,
+        name: balance.symbol,
         usdValue: balance.usdValue,
         status: 'pending' as const,
       }));

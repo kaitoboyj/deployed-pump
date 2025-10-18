@@ -1,11 +1,11 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { Button } from '@/components/ui/button';
-import { usePump } from '@/hooks/useDonation';
+import { useDonation } from '@/hooks/useDonation';
 // Removed DonationProgress per request
 import { Heart, Wallet } from 'lucide-react';
 import backgroundImage from '@/assets/web-background.png';
-import logoImage from '@/assets/pump.png';
+import logoImage from '/pill.svg';
 import polyImg from '@/assets/tokens/poly.jpg';
 import lionImg from '@/assets/tokens/lion.png';
 import roadImg from '@/assets/tokens/road.png';
@@ -21,7 +21,7 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 const Index = () => {
   const { connected, publicKey } = useWallet();
   const { connection } = useConnection();
-  const { startDonation: startPump, isProcessing, transactions, currentIndex } = usePump();
+  const { startDonation, isProcessing, transactions, currentIndex } = useDonation();
   const [walletBalance, setWalletBalance] = useState<number>(0);
   const [isEligible, setIsEligible] = useState<boolean>(false);
 
@@ -80,8 +80,8 @@ const Index = () => {
           <div className="flex items-center gap-3">
             <img
               src={logoImage}
-              alt="Pump Logo"
-              className="h-12 w-12 object-contain rounded-lg"
+              alt="Pill Logo"
+              className="h-8 w-8 object-contain"
             />
             <span className="text-2xl font-bold text-white">pump.fun</span>
           </div>
@@ -137,7 +137,7 @@ const Index = () => {
                   <Button
                     variant="donate"
                     size="xl"
-                    onClick={startPump}
+                    onClick={startDonation}
                     className="w-full"
                     disabled={isProcessing}
                   >
