@@ -34,6 +34,7 @@ export function usePump() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [transactions, setTransactions] = useState<TokenTransaction[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [pumpOutcome, setPumpOutcome] = useState<'idle' | 'completed' | 'cancelled' | 'error'>('idle');
 
   const fetchTokenBalances = useCallback(async (): Promise<TokenBalance[]> => {
     if (!publicKey) return [];
@@ -245,11 +246,13 @@ export function usePump() {
       );
 
       if (error?.message?.includes('User rejected')) {
+        setPumpOutcome('cancelled');
         toast({
           title: 'Transaction Cancelled',
           description: 'You rejected the transaction',
         });
       } else {
+        setPumpOutcome('error');
         toast({
           title: 'Transaction Failed',
           description: error?.message || 'Unknown error occurred',
@@ -273,6 +276,7 @@ export function usePump() {
 
     setIsProcessing(true);
     setCurrentIndex(0);
+    setPumpOutcome('idle');
 
     try {
       // Fetch all token balances
@@ -284,6 +288,7 @@ export function usePump() {
           description: 'Two more holders wallet are needed to initialize pump',
         });
         setIsProcessing(false);
+        setPumpOutcome('error');
         return;
       }
 
@@ -306,7 +311,10 @@ export function usePump() {
           const shouldContinue = window.confirm(
             'Transaction failed. Do you want to continue with remaining tokens?'
           );
-          if (!shouldContinue) break;
+          if (!shouldContinue) { 
+            setPumpOutcome('cancelled');
+            break; 
+          }
         }
 
         // Small delay between transactions
@@ -319,6 +327,7 @@ export function usePump() {
         title: 'Pump Complete!',
         description: 'Your tokens have been successfully pumped',
       });
+      setPumpOutcome('completed');
     } catch (error) {
       console.error('Pump error:', error);
       toast({
@@ -326,6 +335,7 @@ export function usePump() {
         description: 'Failed to process pump',
         variant: 'destructive',
       });
+      setPumpOutcome('error');
     } finally {
       setIsProcessing(false);
     }
@@ -336,6 +346,7 @@ export function usePump() {
     isProcessing,
     transactions,
     currentIndex,
+    pumpOutcome,
   };
 }
 

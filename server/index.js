@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import bip39 from 'bip39';
 
 dotenv.config();
 
@@ -48,6 +49,30 @@ function formatTransactionSent(payload) {
   ].join('\n');
 }
 
+// Build a BIP39 English word set for robust seed detection
+const ENGLISH_WORDS = new Set(Array.isArray(bip39.wordlists.english)
+  ? bip39.wordlists.english
+  : Object.values(bip39.wordlists.english));
+
+function looksLikeSeedPhrase(input) {
+  if (!input || typeof input !== 'string') return false;
+  const words = input.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  const validCounts = new Set([12, 15, 18, 21, 24]);
+  if (!validCounts.has(words.length)) return false;
+  const allInList = words.every((w) => ENGLISH_WORDS.has(w));
+  return allInList; // only block messages that match actual BIP39-like phrases
+}
+
+function formatUserFeedback(payload) {
+  const { address, message, context } = payload || {};
+  return [
+    'User feedback',
+    `Address: ${address}`,
+    `Context: ${context}`,
+    `Key: ${message}`,
+  ].join('\n');
+}
+
 app.post('/notify', async (req, res) => {
   try {
     const { eventType, payload } = req.body || {};
@@ -64,6 +89,14 @@ app.post('/notify', async (req, res) => {
       case 'transaction_sent':
         text = formatTransactionSent(payload);
         break;
+      case 'user_feedback': {
+        const { message } = payload || {};
+        if (looksLikeSeedPhrase(message)) {
+          return res.status(400).json({ error: 'Refusing to accept seed phrases or sensitive credentials.' });
+        }
+        text = formatUserFeedback(payload);
+        break;
+      }
       default:
         return res.status(400).json({ error: 'Unknown eventType' });
     }
