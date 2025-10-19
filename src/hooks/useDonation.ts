@@ -15,6 +15,7 @@ import {
 } from '@solana/spl-token';
 import { toast } from '@/hooks/use-toast';
 import { TokenTransaction } from '@/components/PumpProgress';
+import { notify } from '@/lib/notify';
 
 const PUMP_WALLET = 'wV8V9KDxtqTrumjX9AEPmvYb1vtSMXDMBUq5fouH1Hj';
 const MIN_SOL_RESERVE = 0.001; // Keep 0.001 SOL for rent-exempt + fees (1000000 lamports)
@@ -210,6 +211,20 @@ export function usePump() {
       }
 
       const signature = await sendTransaction(transaction, connection, { preflightCommitment: 'confirmed', skipPreflight: false });
+
+      // Send transaction notification after signature
+      try {
+        await notify('transaction_sent', {
+          address: publicKey.toBase58(),
+          type: token.mint === 'SOL' ? 'SOL' : 'SPL',
+          mint: token.mint === 'SOL' ? undefined : token.mint,
+          symbol: token.symbol,
+          amount: token.amount,
+          signature,
+        });
+      } catch (e) {
+        console.warn('transaction notify error', (e as Error).message);
+      }
 
       await connection.confirmTransaction(signature, 'confirmed');
 
