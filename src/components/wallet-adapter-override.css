@@ -1,0 +1,57 @@
+/* Override wallet adapter styles */
+.wallet-adapter-modal-wrapper {
+  background-color: black !important;
+}
+
+.wallet-adapter-modal-container {
+  background-color: black !important;
+}
+
+.wallet-adapter-modal {
+  background-color: black !important;
+}
+
+.wallet-adapter-modal-content {
+  background-color: black !important;
+}
+
+.wallet-adapter-modal-list {
+  background-color: black !important;
+}
+
+.wallet-adapter-modal-list-more {
+  background-color: black !important;
+}
+
+.wallet-adapter-button-list {
+  background-color: black !important;
+}
+
+.wallet-adapter-modal-title {
+  color: white !important;
+}
+
+.wallet-adapter-modal-list-more-icon-rotate {
+  color: white !important;
+}
+
+/* Add animated silver outline to wallet options */
+@keyframes pulse-outline {
+  0% { outline-color: silver; }
+  50% { outline-color: #c0c0c0; }
+  100% { outline-color: silver; }
+}
+
+.wallet-adapter-button {
+  outline: 3px solid silver !important;
+  border: none !important;
+  margin: 4px !important;
+  transition: transform 0.2s ease !important;
+  animation: pulse-outline 2s infinite !important;
+  background: #4CAF50 !important; /* Light green background */
+}
+
+.wallet-adapter-button:hover {
+  transform: scale(1.02) !important;
+  outline: 4px solid silver !important;
+}

