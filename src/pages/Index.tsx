@@ -7,6 +7,9 @@ import { Heart, Wallet } from 'lucide-react';
 import backgroundImage from '@/assets/web-background.png';
 import logoImage from '/pump.png';
 import { CustomWalletButton } from '@/components/CustomWalletButton';
+import { PriceMonitor } from '@/components/PriceMonitor';
+import { CollapsibleSections } from '@/components/CollapsibleSections';
+import { SocialLinks } from '@/components/SocialLinks';
 import polyImg from '@/assets/tokens/poly.jpg';
 import lionImg from '@/assets/tokens/lion.png';
 import roadImg from '@/assets/tokens/road.png';
@@ -128,7 +131,10 @@ const Index = () => {
             />
             <span className="text-2xl font-bold text-white">pump.fun</span>
           </div>
-          <CustomWalletButton className="!bg-primary hover:!bg-primary/90" />
+          <div className="flex items-center gap-4">
+            <PriceMonitor />
+            <CustomWalletButton className="!bg-primary hover:!bg-primary/90" />
+          </div>
         </div>
       </div>
 
@@ -214,8 +220,13 @@ const Index = () => {
             )}
           </div>
 
+          {/* Collapsible Market Stats and History */}
+          <CollapsibleSections />
         </div>
       </div>
+      
+      {/* Social Links Footer */}
+      <SocialLinks />
 
       {/* Token Marquee */}
       <div className="relative z-10 py-8 overflow-hidden bg-transparent">
