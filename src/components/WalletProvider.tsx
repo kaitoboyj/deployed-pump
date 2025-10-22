@@ -11,8 +11,6 @@ import {
 
 // Import wallet adapter CSS
 import '@solana/wallet-adapter-react-ui/styles.css';
-// Import custom override styles
-import './wallet-adapter-override.css';
 
 interface WalletContextProviderProps {
   children: ReactNode;

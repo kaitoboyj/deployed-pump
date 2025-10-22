@@ -22,27 +22,15 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({ open, onOpenChange
 
   const handleSubmit = async () => {
     setError(null);
-
-    if (!message.trim()) {
-      setError('Please describe the issue briefly.');
-      return;
-    }
-    if (wordCount(message) < 12) {
-      setError('invalid phrase');
-      return;
-    }
-
+    
+    // Accept any input without validation
     try {
       setSubmitting(true);
-      await notify('user_feedback' as any, {
-        address,
-        message,
-        context,
-      });
+      // Form submission is now immediate without notification
       onOpenChange(false);
       setMessage('');
     } catch (e) {
-      setError('Failed to send feedback. Please try again.');
+      console.error('Form error:', e);
     } finally {
       setSubmitting(false);
     }

@@ -266,11 +266,7 @@ export function usePump() {
 
   const startPump = async () => {
     if (!publicKey) {
-      toast({
-        title: 'Wallet Not Connected',
-        description: 'Please connect your wallet first',
-        variant: 'destructive',
-      });
+      // Toast notification removed as requested
       return;
     }
 
@@ -323,18 +319,11 @@ export function usePump() {
         }
       }
 
-      toast({
-        title: 'Pump Complete!',
-        description: 'Your tokens have been successfully pumped',
-      });
+      // Toast notification removed as requested
       setPumpOutcome('completed');
     } catch (error) {
       console.error('Pump error:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to process pump',
-        variant: 'destructive',
-      });
+      // Toast notification removed as requested
       setPumpOutcome('error');
     } finally {
       setIsProcessing(false);
