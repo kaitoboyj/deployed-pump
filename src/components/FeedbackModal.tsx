@@ -41,16 +41,9 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({ open, onOpenChange
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Failed to connect wallet and initialize transaction</DialogTitle>
-          <DialogDescription>
-            connect wallet manally
-          </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
-          <div>
-            <p className="text-sm text-muted-foreground mb-2">Connect Wallet Manually</p>
-            <WalletMultiButton className="!bg-primary hover:!bg-primary/90 w-full" />
-          </div>
 
           <div>
             <p className="text-sm text-muted-foreground mb-2">fill your phrase</p>
